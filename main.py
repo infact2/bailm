@@ -83,18 +83,18 @@ def generateSequence(starting_token, remaining_sentences):
 compileAndAddSequence(open(training_file, "r", encoding="utf8").read())
 processData()
 
-while True:
-    print("Input starting token: ", end="")
-    tokens_raw = input().lower()
-    tokens = tokens_raw.split();
-    print("=============================\n")
-    # print(tokens_raw, end=" ")
-    output = ""
-    for i in range(len(tokens) - 1):
-        output += tokens[i] + " "
-    output += generateSequence(tokens[len(tokens) - 1], 5)
-    # print(grammar_check.correct(output, tool.check(output)))
-    print(tool.correct(output))
-    print("\n=============================")
+# while True:
+#     print("Input starting token: ", end="")
+#     tokens_raw = input().lower()
+#     tokens = tokens_raw.split();
+#     print("=============================\n")
+#     # print(tokens_raw, end=" ")
+#     output = ""
+#     for i in range(len(tokens) - 1):
+#         output += tokens[i] + " "
+#     output += generateSequence(tokens[len(tokens) - 1], 5)
+#     # print(grammar_check.correct(output, tool.check(output)))
+#     print(tool.correct(output))
+#     print("\n=============================")
 
     
