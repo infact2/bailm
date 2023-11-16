@@ -1,5 +1,6 @@
 import random
 import language_tool_python
+# import discord
 
 tool = language_tool_python.LanguageToolPublicAPI('en-US')
 
@@ -10,6 +11,8 @@ punctation = ",.<>/?;:\"[]\\{}|`~=_+!()\n"
 depunctated_replacement = "PLEASEREMOVETHISSHIT"
 
 training_file = "training.txt"
+
+# token = 
 
 def compileAndAddSequence(string):
     depunctuated = string.lower()
