@@ -7,7 +7,8 @@ tool = language_tool_python.LanguageToolPublicAPI('en-US')
 data_raw = []
 data = {}
 sentence_starters = []
-punctation = ",.<>/?;:\"[]\\{}|`~=_+!()\n"
+ic_punctation = ".;:?!"
+remove_char = "@#$%^&*()<>{}[],/\\\"=_+"
 depunctated_replacement = "PLEASEREMOVETHISSHIT"
 
 training_file = "training.txt"
@@ -16,9 +17,13 @@ training_file = "training.txt"
 
 def compileAndAddSequence(string):
     depunctuated = string.lower()
-    for char in punctation:
+    for char in ic_punctation:
         # char = punctation[i]
         depunctuated = depunctuated.replace(char, depunctated_replacement)
+    
+    for char in remove_char:
+        # char = punctation[i]
+        depunctuated = depunctuated.replace(char, "")
     
     for i in depunctuated.split(depunctated_replacement):
         data_raw.append(i)
@@ -75,15 +80,19 @@ def generateSequence(starting_token, remaining_sentences):
 
 # LOAD TRAINING DATA
 
-compileAndAddSequence(open(training_file, "r").read())
+compileAndAddSequence(open(training_file, "r", encoding="utf8").read())
 processData()
 
 while True:
     print("Input starting token: ", end="")
-    tokens_raw = input()
+    tokens_raw = input().lower()
+    tokens = tokens_raw.split();
     print("=============================\n")
     # print(tokens_raw, end=" ")
-    output = generateSequence(tokens_raw, 5)
+    output = ""
+    for i in range(len(tokens) - 1):
+        output += tokens[i] + " "
+    output += generateSequence(tokens[len(tokens) - 1], 5)
     # print(grammar_check.correct(output, tool.check(output)))
     print(tool.correct(output))
     print("\n=============================")
