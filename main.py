@@ -15,6 +15,8 @@ ic_punctation = ".;:?!"
 remove_char = "@#$%^&*()<>{}[],/\\\"=_+"
 depunctated_replacement = "DUDEPLEASEREMOVE"
 
+margin = 2;
+
 training_file = "training.txt"
 
 
@@ -42,7 +44,15 @@ def processData():
 
             has_next = token_index + 1 < len(sequence)
             if has_next:
-                data[token].append({"occurences": 1, "word": sequence[token_index + 1]});
+                next = sequence[token_index + 1]
+                next_index = -1
+                for i in range(len(data[token])):
+                    if data[token][i]["word"] == next:
+                        next_index = i
+                if next_index == -1:
+                    data[token].append({"occurences": 1, "word": next})
+                else:
+                    data[token][next_index]["occurences"] += 1
         if len(sequence) > 0:
             sentence_starters.append(sequence[0])
 
@@ -66,7 +76,7 @@ def generateSequence(starting_token, remaining_sentences):
                 max_occurences = max(max_occurences, i["occurences"])
 
             for i in next_possible_tokens:
-                if i["occurences"] == max_occurences:
+                if i["occurences"] >= max_occurences - margin:
                     next_tokens.append(i["word"])
             
             if len(next_tokens) == 0:
