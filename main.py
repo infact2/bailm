@@ -1,6 +1,10 @@
 import random
 import language_tool_python
-# import discord
+import os
+import requests
+from flask import Flask, request, send_file
+
+app = Flask(__name__)
 
 tool = language_tool_python.LanguageToolPublicAPI('en-US')
 
@@ -9,11 +13,10 @@ data = {}
 sentence_starters = []
 ic_punctation = ".;:?!"
 remove_char = "@#$%^&*()<>{}[],/\\\"=_+"
-depunctated_replacement = "PLEASEREMOVETHISSHIT"
+depunctated_replacement = "DUDEPLEASEREMOVE"
 
 training_file = "training.txt"
 
-# token = 
 
 def compileAndAddSequence(string):
     depunctuated = string.lower()
@@ -77,24 +80,38 @@ def generateSequence(starting_token, remaining_sentences):
         return starting_token + " " + generateSequence(next_token, remaining_sentences)
     except Exception as error:
         print(error.args)
+        return ""
+
+def publicFile(filename):
+    return os.path.join("public", filename)
 
 # LOAD TRAINING DATA
 
 compileAndAddSequence(open(training_file, "r", encoding="utf8").read())
 processData()
 
-# while True:
-#     print("Input starting token: ", end="")
-#     tokens_raw = input().lower()
-#     tokens = tokens_raw.split();
-#     print("=============================\n")
-#     # print(tokens_raw, end=" ")
-#     output = ""
-#     for i in range(len(tokens) - 1):
-#         output += tokens[i] + " "
-#     output += generateSequence(tokens[len(tokens) - 1], 5)
-#     # print(grammar_check.correct(output, tool.check(output)))
-#     print(tool.correct(output))
-#     print("\n=============================")
+@app.route("/<path>")
+def balls(path):
+    return send_file(publicFile(path))
 
+@app.route("/")
+def index():
+    return send_file(publicFile("index.html"))
+
+@app.route("/generate/<starting_tokens>", methods=["POST"])
+def generate(starting_tokens):
+    print(starting_tokens)
+    tokens_raw = starting_tokens.lower()
+    tokens = tokens_raw.split();
+    # print(tokens_raw, end=" ")
+    output = ""
+    for i in range(len(tokens) - 1):
+        output += tokens[i] + " "
+    output += generateSequence(tokens[len(tokens) - 1], 3)
+    output = tool.correct(output)
+    # print(grammar_check.correct(output, tool.check(output)))
+    print(output)
+    return output
     
+if __name__ == '__main__':
+   app.run(debug = True)

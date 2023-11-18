@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Roboto:ital,wght@0,300;0,700;1,300;1,700&display=swap');
+
+body {
+    font-family: "Inconsolata";
+    padding: 45px;
+    line-height: 2em;
+}
+h1 {
+    font-size: 45px;
+}
+
+input, #output {
+    background: rgba(0, 0, 0, 0.1);
+    border: none;
+    outline: 0;
+    font-family: inherit;
+    font-size: 14px;
+    width: min(500px, 100vw);
+    margin: 10px 0px 10px 0px;
+    padding: 15px;
+    box-sizing: border-box;
+    line-height: inherit;
+}
+button {
+    background: #333;
+    color: #eee;
+    font-family: inherit;
+    font-size: 14px;
+    margin: 10px 0px 10px 0px;
+    padding: 15px;
+    cursor: pointer;
+    transition: 180ms;
+}
+button:disabled {
+    filter: brightness(120%);
+}
+button:hover {
+    transform: scale(110%);
+}
+
+button:active {
+    transform: scale(90%);
+}
+
+@keyframes blink {
+    0% { color: inherit; }
+    50% { color: inherit; }
+    100% { color: transparent; }
+}
+#cursor {
+    animation: blink 0.5s steps(50, start) infinite;
+}

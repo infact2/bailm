@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BAiLM</title>
+    
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="script.js"></script>
+</head>
+<body>
+    <h1>BAiLM</h1>
+    <p>
+        An AI langauge model soley trained off of our conversations
+    </p>
+    <p><b>⚠️ WARNING: </b> generation may result in stupid stuff, try at your own risk.</p>
+    <p>----------------------------------------------</p>
+    <form onsubmit="try { generate(); } catch(error) { console.log(error.message); } return false;">
+        <input placeholder="Type your text to start..." id="input"><br>
+        <button type="submit" id="generate-btn" required>Generate</button>
+        <div id="output">Your output will appear here...</div>
+    </form>
+    <p><small>Made by Jesse Li, Jay Thapar, and Teague Wright.</small></p>
+    <!-- <button onclick="generate()"></button> -->
+</body>
+</html>
