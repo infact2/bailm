@@ -21,6 +21,28 @@ input, #output {
     box-sizing: border-box;
     line-height: inherit;
 }
+input[type="range"] {
+    appearance: none;
+    width: 100px;
+    height: 5px;
+    padding: 0px;
+    vertical-align: middle;
+    cursor: grab;
+}
+input[type="range"]::-webkit-slider-thumb {
+    background: #333;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+}
+input[type="range"]::-moz-slider-thumb {
+    background: #333;
+    width: 12px;
+    height: 12px;
+}
+input[type="range"]:active {
+    cursor: grabbing;
+}
 button {
     background: #333;
     color: #eee;
@@ -32,7 +54,7 @@ button {
     transition: 180ms;
 }
 button:disabled {
-    filter: brightness(120%);
+    filter: brightness(200%);
 }
 button:hover {
     transform: scale(110%);
@@ -49,4 +71,8 @@ button:active {
 }
 #cursor {
     animation: blink 0.5s steps(50, start) infinite;
+}
+#loading {
+    height: 32px;
+    vertical-align: middle;
 }

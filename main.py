@@ -98,8 +98,8 @@ def balls(path):
 def index():
     return send_file(publicFile("index.html"))
 
-@app.route("/generate/<starting_tokens>", methods=["POST"])
-def generate(starting_tokens):
+@app.route("/generate/<starting_tokens>/<int:sentences>", methods=["POST"])
+def generate(starting_tokens, sentences):
     print(starting_tokens)
     tokens_raw = starting_tokens.lower()
     tokens = tokens_raw.split();
@@ -107,7 +107,7 @@ def generate(starting_tokens):
     output = ""
     for i in range(len(tokens) - 1):
         output += tokens[i] + " "
-    output += generateSequence(tokens[len(tokens) - 1], 3)
+    output += generateSequence(tokens[len(tokens) - 1], sentences)
     output = tool.correct(output)
     # print(grammar_check.correct(output, tool.check(output)))
     print(output)
