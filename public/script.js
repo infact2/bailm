@@ -21,7 +21,7 @@ function delay(ms) {
     return new Promise(resolve => { 
         setTimeout(() => { resolve('') }, ms); 
     }) 
-} 
+}
 
 async function output(input) {
     let output = document.querySelector("#output");
@@ -33,4 +33,16 @@ async function output(input) {
         await delay(15);
     }
     output.innerHTML = output.innerHTML.replace(cursor, "");
+}
+
+function openAsLink() {
+    // window.open("https://www.google.com")
+    let data = `data:text/html,
+        <style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Roboto:ital,wght@0,300;0,700;1,300;1,700&display=swap'); body { padding: 30px; font-family: "Inconsolata"; }</style>${document.getElementById("output").innerText}`;
+
+    // let tab = window.open("");
+    // tab.document.write() = data;
+    // window.location.href = data;
+
+    window.open(data);
 }
