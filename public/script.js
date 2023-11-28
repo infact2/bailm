@@ -1,5 +1,19 @@
 const cursor = "█";
 
+window.onerror = (event) => {
+    alert(event);
+}
+
+function base64ToBytes(base64) {
+    const binString = atob(base64);
+    return Uint8Array.from(binString, (m) => m.codePointAt(0));
+}
+
+function bytesToBase64(bytes) {
+    const binString = String.fromCodePoint(...bytes);
+    return btoa(binString);
+}
+
 function generate() {
     let input = document.querySelector("#input");
     if (input.disabled) return;
@@ -37,12 +51,11 @@ async function output(input) {
 
 function openAsLink() {
     // window.open("https://www.google.com")
-    let data = `data:text/html,
-        <style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Roboto:ital,wght@0,300;0,700;1,300;1,700&display=swap'); body { padding: 30px; font-family: "Inconsolata"; }</style>${document.getElementById("output").innerText}`;
+    let data = bytesToBase64(new TextEncoder().encode(document.getElementById("output").innerText));
 
-    // let tab = window.open("");
+    // let tab = window.open("about:blank");
     // tab.document.write() = data;
-    // window.location.href = data;
+    // // window.location.href = data;
 
-    window.open(data);
+    window.open(`/preview/${data}`);
 }

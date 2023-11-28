@@ -2,6 +2,7 @@ import random
 import language_tool_python
 import os
 import requests
+import base64
 from flask import Flask, request, send_file
 
 app = Flask(__name__)
@@ -119,7 +120,6 @@ def publicFile(filename):
 
 
 
-
 @app.route("/<path>")
 def balls(path):
     return send_file(publicFile(path))
@@ -127,6 +127,12 @@ def balls(path):
 @app.route("/")
 def index():
     return send_file(publicFile("index.html"))
+
+@app.route("/preview/<content>")
+def preview(content):
+    print("iuowerghiuergipuhebgwbiobihogrihuerwuebopufdgtvr8yobtrhju")
+    decoded_content = base64.b64decode(content).decode()
+    return f"<style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Roboto:ital,wght@0,300;0,700;1,300;1,700&display=swap'); body {'{ padding: 30px; line-height: 2em; font-family: \'Inconsolata\'; }'} </style><h2>Preview</h2>------------------------<br><br>&nbsp;&nbsp;&nbsp;&nbsp;{decoded_content}";
 
 @app.route("/generate/<starting_tokens>/<int:sentences>/<document_name>", methods=["POST"])
 def generate(starting_tokens, sentences, document_name):
