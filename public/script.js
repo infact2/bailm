@@ -8,7 +8,7 @@ function generate() {
     document.getElementById("generate-btn").innerHTML = "(Please Wait)";
     document.getElementById("loading").style.display = "unset";
 
-    $.post(`/generate/${input.value.replace("/", "%2F")}/${document.getElementById("sentences").value}`, async function (data, status) {
+    $.post(`/generate/${input.value.replace("/", "%2F")}/${document.getElementById("sentences").value}/${document.getElementById("training-document").value}`, async function (data, status) {
         console.log("balls2");
         await output(data);
         document.getElementById("generate-btn").disabled = false;

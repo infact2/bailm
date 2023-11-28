@@ -9,7 +9,7 @@ h1 {
     font-size: 45px;
 }
 
-input, #output {
+input, #output, select, option {
     background: rgba(0, 0, 0, 0.1);
     border: none;
     outline: 0;
@@ -21,6 +21,11 @@ input, #output {
     box-sizing: border-box;
     line-height: inherit;
 }
+select:hover, option:hover {
+    filter: brightness(110%);
+    cursor: pointer;
+}
+
 input[type="range"] {
     appearance: none;
     width: 100px;

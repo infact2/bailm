@@ -8,9 +8,6 @@ app = Flask(__name__)
 
 tool = language_tool_python.LanguageToolPublicAPI('en-US')
 
-data_raw = []
-data = {}
-sentence_starters = []
 ic_punctation = ".;:?!"
 remove_char = "@#$%^&*()<>{}[],/\\\"=_+"
 depunctated_replacement = "DUDEPLEASEREMOVE"
@@ -18,9 +15,11 @@ depunctated_replacement = "DUDEPLEASEREMOVE"
 margin = 2;
 
 training_file = "training.txt"
+document_data = {}
 
 
 def compileAndAddSequence(string):
+    data_raw = []
     depunctuated = string.lower()
     for char in ic_punctation:
         # char = punctation[i]
@@ -33,7 +32,22 @@ def compileAndAddSequence(string):
     for i in depunctuated.split(depunctated_replacement):
         data_raw.append(i)
 
-def processData():
+    return data_raw
+
+def processData(document_name):
+    if document_name in document_data:
+        return
+
+    data_raw = ""
+    try:
+        data_raw = compileAndAddSequence(open(document_name, "r", encoding="utf8").read())
+    except:
+        print("bruh kys")
+        return
+
+    data = {}
+    sentence_starters = []
+
     for i in data_raw:
         sequence = i.split()
         for token_index in range(len(sequence)):
@@ -56,16 +70,23 @@ def processData():
         if len(sequence) > 0:
             sentence_starters.append(sequence[0])
 
-def randomToken():
-    return random.choice(sentence_starters)
 
-def generateSequence(starting_token, remaining_sentences):
+    document_data[document_name] = {"data": data, "sentence_starters": sentence_starters}
+    print(f"Successfully processed ${document_name}")
+
+def randomToken(document_name):
+    return random.choice(document_data[document_name]["sentence_starters"])
+
+def generateSequence(starting_token, remaining_sentences, document_name):
+    processData(document_name)
+
     if remaining_sentences == 0:
         return ""
 
     # print(starting_token)
 
     next_token = ""
+    data = document_data[document_name]["data"]
     try:
         if starting_token in data:
             max_occurences = 1
@@ -80,14 +101,14 @@ def generateSequence(starting_token, remaining_sentences):
                     next_tokens.append(i["word"])
             
             if len(next_tokens) == 0:
-                next_starting_token = randomToken()
-                return starting_token + ". " + generateSequence(next_starting_token, remaining_sentences - 1)
+                next_starting_token = randomToken(document_name)
+                return starting_token + ". " + generateSequence(next_starting_token, remaining_sentences - 1, document_name)
             next_token = random.choice(next_tokens)
         else:
-            next_starting_token = randomToken()
-            return starting_token + ". " + generateSequence(next_starting_token, remaining_sentences - 1)
+            next_starting_token = randomToken(document_name)
+            return starting_token + ". " + generateSequence(next_starting_token, remaining_sentences - 1, document_name)
         # print(next_token, end=" ")
-        return starting_token + " " + generateSequence(next_token, remaining_sentences)
+        return starting_token + " " + generateSequence(next_token, remaining_sentences, document_name)
     except Exception as error:
         print(error.args)
         return ""
@@ -95,10 +116,9 @@ def generateSequence(starting_token, remaining_sentences):
 def publicFile(filename):
     return os.path.join("public", filename)
 
-# LOAD TRAINING DATA
 
-compileAndAddSequence(open(training_file, "r", encoding="utf8").read())
-processData()
+
+
 
 @app.route("/<path>")
 def balls(path):
@@ -108,8 +128,9 @@ def balls(path):
 def index():
     return send_file(publicFile("index.html"))
 
-@app.route("/generate/<starting_tokens>/<int:sentences>", methods=["POST"])
-def generate(starting_tokens, sentences):
+@app.route("/generate/<starting_tokens>/<int:sentences>/<document_name>", methods=["POST"])
+def generate(starting_tokens, sentences, document_name):
+
     print(starting_tokens)
     tokens_raw = starting_tokens.lower()
     tokens = tokens_raw.split();
@@ -117,7 +138,7 @@ def generate(starting_tokens, sentences):
     output = ""
     for i in range(len(tokens) - 1):
         output += tokens[i] + " "
-    output += generateSequence(tokens[len(tokens) - 1], sentences)
+    output += generateSequence(tokens[len(tokens) - 1], sentences, document_name)
     output = tool.correct(output)
     # print(grammar_check.correct(output, tool.check(output)))
     print(output)

@@ -12,7 +12,7 @@
 <body>
     <h1>BAiLM</h1>
     <p>
-        An AI langauge model soley trained off of our conversations
+        An AI langauge model trained off of our conversations
     </p>
     <p><b>⚠️ WARNING: </b> generation may result in stupid stuff, try at your own risk.</p>
     <p>----------------------------------------------</p>
@@ -20,6 +20,12 @@
         <b>Settings:</b><br>
         Sentences: <span id="sentences-count">5</span>
         <input type="range" min="2" max="8" id="sentences" oninput="document.getElementById('sentences-count').innerHTML = this.value"><br>
+        Document:<br>
+        <select id="training-document">
+            <option value="stuff.txt"><b>Random Conversation #1 (Default)</b></option>
+            <option value="twilight.txt">Twilight Chapter 1</option>
+        </select><br>
+
         <input placeholder="Type your text to start..." id="input"><br>
         <button type="submit" id="generate-btn" required>Generate</button>
         &nbsp;<img src="loading.gif" id="loading" style="display: none;">
