@@ -132,7 +132,7 @@ def index():
 def preview(content):
     print("iuowerghiuergipuhebgwbiobihogrihuerwuebopufdgtvr8yobtrhju")
     decoded_content = base64.b64decode(content).decode()
-    return f"<style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Roboto:ital,wght@0,300;0,700;1,300;1,700&display=swap'); body {'{ padding: 30px; line-height: 2em; font-family: \'Inconsolata\'; }'} </style><h2>Preview</h2>------------------------<br><br>&nbsp;&nbsp;&nbsp;&nbsp;{decoded_content}";
+    return "<style>@import url('https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;700&family=Roboto:ital,wght@0,300;0,700;1,300;1,700&display=swap'); body { padding: 30px; line-height: 2em; font-family: 'Inconsolata'; } </style><h2>Preview</h2>------------------------<br><br>&nbsp;&nbsp;&nbsp;&nbsp;" + decoded_content;
 
 @app.route("/generate/<starting_tokens>/<int:sentences>/<document_name>", methods=["POST"])
 def generate(starting_tokens, sentences, document_name):
