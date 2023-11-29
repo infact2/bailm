@@ -38,12 +38,17 @@ function delay(ms) {
 }
 
 async function output(input) {
+    let errorReplaced = false;
     let output = document.querySelector("#output");
     output.innerHTML = cursor;
 
     for (let i = 0; i < input.length; i++) {
         output.innerHTML = output.innerHTML.replace(cursor, "");
         output.innerHTML += input[i] + cursor;
+
+        if (!errorReplaced) {
+            output.innerHTML = output.innerHTML.replace("[LTERROR]", "<span style='background: #ffcc00; padding: 7px; font-weight: 700;'>[[ ⚠ ERROR: There was an error with grammar correction, uncorrected version will be displayed instead... ⚠ ]]</span>")
+        }
         await delay(15);
     }
     output.innerHTML = output.innerHTML.replace(cursor, "");
@@ -51,7 +56,7 @@ async function output(input) {
 
 function openAsLink() {
     // window.open("https://www.google.com")
-    let data = bytesToBase64(new TextEncoder().encode(document.getElementById("output").innerText));
+    let data = bytesToBase64(new TextEncoder().encode(document.getElementById("output").innerHTML));
 
     // let tab = window.open("about:blank");
     // tab.document.write() = data;

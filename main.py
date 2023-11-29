@@ -145,9 +145,13 @@ def generate(starting_tokens, sentences, document_name):
     for i in range(len(tokens) - 1):
         output += tokens[i] + " "
     output += generateSequence(tokens[len(tokens) - 1], sentences, document_name)
-    output = tool.correct(output)
+    try:
+        output = tool.correct(output)
+        # raise Exception("poewhwertgoghptigtr")
+    except:
+        output = f"[LTERROR] {output}"
     # print(grammar_check.correct(output, tool.check(output)))
-    print(output)
+
     return output
     
 if __name__ == '__main__':
