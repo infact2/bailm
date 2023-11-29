@@ -46,10 +46,7 @@ async function output(input) {
         output.innerHTML = output.innerHTML.replace(cursor, "");
         output.innerHTML += input[i] + cursor;
 
-        if (!errorReplaced) {
-            output.innerHTML = output.innerHTML.replace("[LTERROR]", "<span style='background: #ffcc00; padding: 7px; font-weight: 700;'>[[ ⚠ ERROR: There was an error with grammar correction, uncorrected version will be displayed instead... ⚠ ]]</span>")
-            errorReplaced = true;
-        }
+        output.innerHTML = output.innerHTML.replace("[LTERROR]", "<span style='background: #ffcc00; padding: 7px; font-weight: 700;'>[[ ⚠ ERROR: There was an error with grammar correction, uncorrected version will be displayed instead... ⚠ ]]</span>");
         await delay(15);
     }
     output.innerHTML = output.innerHTML.replace(cursor, "");
