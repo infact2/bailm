@@ -48,6 +48,7 @@ async function output(input) {
 
         if (!errorReplaced) {
             output.innerHTML = output.innerHTML.replace("[LTERROR]", "<span style='background: #ffcc00; padding: 7px; font-weight: 700;'>[[ ⚠ ERROR: There was an error with grammar correction, uncorrected version will be displayed instead... ⚠ ]]</span>")
+            errorReplaced = true;
         }
         await delay(15);
     }
