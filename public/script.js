@@ -42,12 +42,14 @@ async function output(input) {
     let output = document.querySelector("#output");
     output.innerHTML = cursor;
 
-    for (let i = 0; i < input.length; i++) {
+    const ballsslslsls = input.split(" ");
+
+    for (let i = 0; i < ballsslslsls.length; i++) {
         output.innerHTML = output.innerHTML.replace(cursor, "");
-        output.innerHTML += input[i] + cursor;
+        output.innerHTML += ballsslslsls[i] + " " + cursor;
 
         output.innerHTML = output.innerHTML.replace("[LTERROR]", "<span style='background: #ffcc00; padding: 7px; font-weight: 700;'>[[ ⚠ ERROR: There was an error with grammar correction, uncorrected version will be displayed instead... ⚠ ]]</span>");
-        await delay(15);
+        await delay(17.5);
     }
     output.innerHTML = output.innerHTML.replace(cursor, "");
 }
